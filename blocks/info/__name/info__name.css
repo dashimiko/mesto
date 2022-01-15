@@ -1,0 +1,22 @@
+.info__name {
+  font-size: 42px;
+  line-height: 48px;
+  font-weight: 500;
+  color: white;
+  margin: 0 18px 8px 0;
+  white-space: nowrap;
+}
+
+@media screen and (max-width: 900px) {
+  .info__name {
+    font-size: 27px;
+    line-height: 33px;
+    margin: 0 10px 6px 0;
+  }
+}
+
+@media screen and (max-width: 769px) {
+  .info__name {
+    text-align: center;
+  }
+}
