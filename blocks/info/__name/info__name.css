@@ -5,13 +5,15 @@
   color: white;
   margin: 0 18px 8px 0;
   white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
 }
 
 @media screen and (max-width: 900px) {
   .info__name {
     font-size: 27px;
     line-height: 33px;
-    margin: 0 10px 6px 0;
+    margin: 0 10px 6px 23px;
   }
 }
 

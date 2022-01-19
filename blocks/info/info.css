@@ -1,10 +1,19 @@
-.info {
+/*.info {
   display: flex;
   justify-content: space-between;
   align-items: baseline;
   margin: 0;
   max-width: 336px;
-}
+}*/
+
+  .info {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    max-width: 336px;
+  }
+
+
 
 @media screen and (max-width: 768px) {
   .info {

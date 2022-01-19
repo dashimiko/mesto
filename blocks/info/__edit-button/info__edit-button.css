@@ -8,6 +8,12 @@
   display: inline;
   width: 24px;
   height: 24px;
+  opacity: 1;
+  transition: opacity .1s linear;
+}
+
+.info__edit-button:hover {
+  opacity: 0.6;
 }
 
 @media screen and (max-width: 769px) {
