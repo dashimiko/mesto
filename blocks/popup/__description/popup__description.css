@@ -7,7 +7,10 @@
   font-size: 14px;
   line-height: 16.94px;
   padding: 0;
-  margin: 17px 0 0;
+  margin: 40px 0 0;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
 }
 
 @media screen and (max-width: 589px) {

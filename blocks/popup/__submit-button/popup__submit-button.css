@@ -10,6 +10,12 @@
   border: 0;
   border-radius: 2px;
   margin-top: 48px;
+  opacity: 1;
+  transition: opacity .1s linear;
+}
+
+.popup__submit-button:hover {
+  opacity: 0.8;
 }
 
 @media screen and (max-width: 589px) {
@@ -17,6 +23,6 @@
     font-size: 14px;
     line-height: 16.94px;
     height: 46px;
-    margin-top: 43px;
+    margin-top: 52px;
   }
 }

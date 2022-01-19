@@ -12,6 +12,12 @@
   background-color: transparent;
   padding: 0;
   outline: none;
+  opacity: 1;
+  transition: opacity .1s linear;
+}
+
+.popup__close:hover {
+  opacity: 0.6;
 }
 
 @media screen and (max-width: 589px) {
