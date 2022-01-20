@@ -20,14 +20,14 @@ popupCloseButton.addEventListener('click', closePopup);
 let formElement = document.querySelector('.popup__form');
 let nameInput = document.querySelector('.popup__name');
 let jobInput = document.querySelector('.popup__description');
-let profilename = document.querySelector('.info__name');
+let profileName = document.querySelector('.info__name');
 let profileJob = document.querySelector('.info__description');
 
 function formSubmitHandler (evt) {
   evt.preventDefault();
-  profilename.textContent = nameInput.value;
+  profileName.textContent = nameInput.value;
   profileJob.textContent = jobInput.value;
   closePopup();
 }
 
-formElement.addEventListener('submit' , formSubmitHandler);
+formElement.addEventListener('submit', formSubmitHandler);
