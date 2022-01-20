@@ -17,25 +17,17 @@ popupCloseButton.addEventListener('click', closePopup);
 
 //редактирование формы
 
-// Находим форму в DOM
-let formElement = document.forms.form;
-let nameInput = formElement.name;
-let jobInput = formElement.description;
-let inputName = nameInput.value;
-let inputJob = jobInput.value;
+let formElement = document.querySelector('.popup__form');
+let nameInput = document.querySelector('.popup__name');
+let jobInput = document.querySelector('.popup__description');
+let profilename = document.querySelector('.info__name');
+let profileJob = document.querySelector('.info__description');
 
 function formSubmitHandler (evt) {
   evt.preventDefault();
-
-
-let inputs = document.querySelectorAll('input');
-
-console.log(inputs[0].value);
-console.log(inputs[1].value);
-
-nameInput.textContent = inputName;
-jobInput.textContent = inputJob;
-closePopup();
+  profilename.textContent = nameInput.value;
+  profileJob.textContent = jobInput.value;
+  closePopup();
 }
 
 formElement.addEventListener('submit' , formSubmitHandler);
