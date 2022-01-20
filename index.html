@@ -91,16 +91,14 @@
       <div class="popup__container">
         <button class="popup__close"></button>
         <h2 class="popup__title">Редактировать профиль</h2>
-        <form class="popup__form">
-          <fieldset class="popup__profile-info">
-            <label>
-              <input type="text" class="popup__name" name ="name" placeholder="Имя" value ="Жак-Ив Кусто" required>
+        <form class="popup__form" name="form">
+            <label class="popup__profile-info">
+              <input type="text" id = "name" class="popup__name" name ="name" placeholder="Имя" value ="иван" required>
             </label>
-            <label>
-              <input type="text" class="popup__description" name ="description" placeholder="О себе" value ="Исследователь океана" required>
+            <label class="popup__profile-info">
+              <input type="text" id = "description" class="popup__description" name ="description" placeholder="О себе" value ="Исследователь океана" required>
             </label>
             <button type="submit" name="submit" class="popup__submit-button">Сохранить</button>
-          </fieldset>
         </form>
       </div>
     </section>
