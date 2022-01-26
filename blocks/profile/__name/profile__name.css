@@ -1,4 +1,4 @@
-.info__name {
+.profile__name {
   font-size: 42px;
   line-height: 48px;
   font-weight: 500;
@@ -7,10 +7,11 @@
   white-space: nowrap;
   text-overflow: ellipsis;
   overflow: hidden;
+  max-width: 294px;
 }
 
 @media screen and (max-width: 900px) {
-  .info__name {
+  .profile__name {
     font-size: 27px;
     line-height: 33px;
     margin: 0 10px 6px 23px;
@@ -18,7 +19,8 @@
 }
 
 @media screen and (max-width: 769px) {
-  .info__name {
+  .profile__name {
     text-align: center;
+    max-width: 189px;
   }
 }

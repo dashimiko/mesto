@@ -1,4 +1,4 @@
-.info__edit-button {
+.profile__edit-button {
   background-image: url(../../../images/edit_button.svg);
   background-size: contain;
   background-repeat: no-repeat;
@@ -10,14 +10,15 @@
   height: 24px;
   opacity: 1;
   transition: opacity .1s linear;
+  cursor: pointer;
 }
 
-.info__edit-button:hover {
+.profile__edit-button:hover {
   opacity: 0.6;
 }
 
 @media screen and (max-width: 769px) {
-  .info__edit-button {
+  .profile__edit-button {
     width: 18px;
     height: 18px;
   }

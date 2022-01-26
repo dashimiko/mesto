@@ -7,13 +7,12 @@
   background-repeat: no-repeat;
   background-color: transparent;
   outline: none;
-  display: inline;
   opacity: 1;
   transition: opacity .1s linear;
   transition: transform 0.4s ease-in;
+  cursor: pointer;
 }
 
 .card__like:hover {
   opacity: 0.5;
-  transform: scale(1.2);
 }

@@ -16,17 +16,15 @@
 
     <main>
       <section class="profile">
-        <div class="profile__pic-container">
-          <img class="profile__avatar" src="./images/kusto.jpg" alt="Фотография пользователя.">
-        </div>
-        <div class="info">
-          <div class="info__container">
-            <h1 class="info__name">Жак-Ив Кусто</h1>
-            <button class="info__edit-button" type="button"></button>
+        <img class="profile__avatar" src="./images/kusto.jpg" alt="Фотография пользователя.">
+        <div class="profile__info">
+          <div class="profile__container">
+            <h1 class="profile__name">Жак-Ив Кусто</h1>
+            <button class="profile__edit-button" type="button"></button>
           </div>
-          <p class="info__description">Исследователь океана</p>
+          <p class="profile__description">Исследователь океана</p>
         </div>
-        <button class="profile__add-button"><img src="./images/small_add_button.svg" class="profile__vector" alt="кнопка добавления контента"></button>
+        <button class="profile__add-button" type="button"><img src="./images/small_add_button.svg" class="profile__vector" alt="кнопка добавления контента"></button>
       </section>
 
       <section class="elements">
@@ -34,7 +32,7 @@
         <article class="card">
           <img class="card__picture" src="./images/elements_karachevsk.jpg" alt="фотография пользователя">
           <div class="card__container">
-            <p class="card__description">Карачаевск</p>
+            <h2 class="card__description">Карачаевск</h2>
             <button class="card__like" type="button"></button>
           </div>
         </article>
@@ -42,7 +40,7 @@
         <article class="card">
           <img class="card__picture" src="./images/elements_elbrus.jpg" alt="фотография пользователя">
           <div class="card__container">
-            <p class="card__description">Гора Эльбрус</p>
+            <h2 class="card__description">Гора Эльбрус</h2>
             <button class="card__like" type="button"></button>
           </div>
         </article>
@@ -50,7 +48,7 @@
         <article class="card">
           <img class="card__picture" src="./images/elements_dombai.jpg" alt="фотография пользователя">
           <div class="card__container">
-            <p class="card__description">Домбай</p>
+            <h2 class="card__description">Домбай</h2>
             <button class="card__like" type="button"></button>
           </div>
         </article>
@@ -58,7 +56,7 @@
         <article class="card">
           <img class="card__picture" src="./images/elements_elbrus.jpg" alt="фотография пользователя">
           <div class="card__container">
-            <p class="card__description">Гора Эльбрус</p>
+            <h2 class="card__description">Гора Эльбрус</h2>
             <button class="card__like" type="button"></button>
           </div>
         </article>
@@ -66,7 +64,7 @@
         <article class="card">
           <img class="card__picture" src="./images/elements_karachevsk.jpg" alt="фотография пользователя">
           <div class="card__container">
-            <p class="card__description">Домбай</p>
+            <h2 class="card__description">Домбай</h2>
             <button class="card__like" type="button"></button>
           </div>
         </article>
@@ -74,7 +72,7 @@
         <article class="card">
           <img class="card__picture" src="./images/elements_dombai.jpg" alt="фотография пользователя">
           <div class="card__container">
-            <p class="card__description">Карачаево-Черкесия</p>
+            <h2 class="card__description">Карачаево-Черкесия</h2>
             <button class="card__like" type="button"></button>
           </div>
         </article>
@@ -87,21 +85,21 @@
       <p class="footer__copyright">&copy; 2022 Mesto Russia</p>
     </footer>
 
-    <section class="popup">
+    <div class="popup">
       <div class="popup__container">
-        <button class="popup__close"></button>
+        <button class="popup__close" type="button"></button>
         <h2 class="popup__title">Редактировать профиль</h2>
         <form class="popup__form" name="form">
           <label class="popup__profile-info">
-            <input type="text" id = "name" class="popup__name" name ="name" placeholder="Имя" value ="Жак-Ив Кусто" required>
+            <input type="text" id = "name" class="popup__input" name ="name" placeholder="Имя" value ="" required>
           </label>
           <label class="popup__profile-info">
-            <input type="text" id = "description" class="popup__description" name ="description" placeholder="О себе" value ="Исследователь океана" required>
+            <input type="text" id = "description" class = "popup__input" name = "description" placeholder="О себе" value ="" required>
           </label>
           <button type="submit" name="submit" class="popup__submit-button">Сохранить</button>
         </form>
       </div>
-    </section>
+    </div>
 
 <script src="./scripts/index.js"></script>
 

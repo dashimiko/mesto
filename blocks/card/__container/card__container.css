@@ -5,3 +5,9 @@
   align-items: center;
   margin: 25px auto 31px;
 }
+
+@media screen and (max-width: 589px) {
+  .card__container {
+    margin-bottom: 22px;
+  }
+}

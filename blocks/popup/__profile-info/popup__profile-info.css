@@ -2,6 +2,15 @@
   display: flex;
   flex-direction: column;
   border: 0;
-  padding: 0;
+  margin: 25px 0 0;
+}
+
+.popup__profile-info:first-of-type {
   margin: 0;
+}
+
+@media screen and (max-width: 589px) {
+  .popup__profile-info {
+    margin-top: 28px;
+  }
 }
