@@ -87,25 +87,26 @@ popupCloseButtonNewPlace.addEventListener('click', closePopupNewPlace);//пос�
 const cardTemplate = document.querySelector('#place-template').content;
 const cardElement = document.querySelector('.card');
 
-//функция создающая новые карточки
+
+//функция отображающая карточки
 function renderCards(card) {
-  const cardElement = cardTemplate.querySelector('.card').cloneNode(true);//клонируем разметку
-  cardElement.querySelector('.card__description').textContent = card.name;//присваиваем значение из массива
-  cardElement.querySelector('.card__picture').src = card.link;//присваиваем значение из массива
-  elements.append(cardElement);//определяем место в разметке
-  return cardElement;
+  const cardElement = cardTemplate.querySelector('.card').cloneNode(true);
+  cardElement.querySelector('.card__description').textContent = card.name;
+  cardElement.querySelector('.card__picture').src = card.link;
+  elements.appendChild(cardElement);
 };
 
-//делаем функцию, которая будет создавать первые шесть карточек на старте
 function render() {
-  initialCards.forEach((card) => {elements.append(renderCards(card));
-  });
+  initialCards.forEach(renderCards);
 }
 
-render();
+//создание новых карточек(не работает, плак-плак)
+function addNewCard (event) {
+  renderCards(placeNameInput.value);
+  renderCards(placelinkInput.value);
+}
 
 //слушатель события
-formElementNewPlace.addEventListener('submit', renderCards);//после сабмита реализовать функцию formSubmitHandler
+cardOpenPopupButton.addEventListener('click', addNewCard);
 
-
-
+render();
