@@ -39,8 +39,6 @@ const popupCloseButtonNewPlace = document.querySelector('.popup__close_new-place
 
 //достаем все что нужно для гененирования новых карточек
 const elements = document.querySelector('.elements');//берем в работу секцию, где будут размещены карточки
-const placeNameInput = document.querySelector('.popup__input_place_name');//берем поле для названия
-const placelinkInput = document.querySelector('.popup__input_place_link');//берем поле для ссылки в форме
 const newPlaceSubmit = document.querySelector('.popup__submit-button_place');//берем кнопку создания новых мест
 let formElementNewPlace = document.querySelector('.popup__form_new-place');//берем форму
 
@@ -87,26 +85,32 @@ popupCloseButtonNewPlace.addEventListener('click', closePopupNewPlace);//пос�
 const cardTemplate = document.querySelector('#place-template').content;
 const cardElement = document.querySelector('.card');
 
-
 //функция отображающая карточки
 function renderCards(card) {
   const cardElement = cardTemplate.querySelector('.card').cloneNode(true);
   cardElement.querySelector('.card__description').textContent = card.name;
   cardElement.querySelector('.card__picture').src = card.link;
-  elements.appendChild(cardElement);
+  elements.append(cardElement);
 };
 
 function render() {
   initialCards.forEach(renderCards);
 }
 
-//создание новых карточек(не работает, плак-плак)
-function addNewCard (event) {
-  renderCards(placeNameInput.value);
-  renderCards(placelinkInput.value);
+let placeNameInput = document.querySelector('.popup__input_place_name');
+let placelinkInput = document.querySelector('.popup__input_place_link');
+
+function addNewCard(event) {
+  event.preventDefault();
+  initialCards.unshift ({
+    name: placeNameInput.value,
+    link: placelinkInput.value,
+});
+closePopupNewPlace();
+render();
 }
 
 //слушатель события
-cardOpenPopupButton.addEventListener('click', addNewCard);
+formElementNewPlace.addEventListener('submit', addNewCard);
 
 render();
