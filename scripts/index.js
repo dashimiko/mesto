@@ -139,7 +139,7 @@ function addListeners(el) {
 
 //открытие и закрытие попапа с картинкой
 const popupOpenPicture = document.querySelector('.popup_open-picture');
-const popupCloseButtonOpenPicture = document.querySelector('.popup__close-button_open-picture');
+const popupCloseButtonOpenPicture = document.querySelector('.popup__close_open-picture');
 const popupBigImage = document.querySelector('.card__picture');
 const popupImageFull = document.querySelector('.popup__picture')
 const popupImageTitleFull = document.querySelector('.popup__description')
