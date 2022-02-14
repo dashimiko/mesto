@@ -59,6 +59,7 @@ const fullPictureTitle = document.querySelector('.popup__description')
 //универсальная функция для открытия всех попапов
 function openPopup(popup) {
   popup.classList.add('popup_opened');
+  document.addEventListener('keydown', closePopupWithEsc);//слушатель закрытия попапа с увеличенной картинкой по оверлею
 }
 
 //универсальная функция для закрытия всех попапов
@@ -145,6 +146,22 @@ function openImage(event) {
   openPopup(fullPicturePopup);
 }
 
+//функция для слушателей закрытия попапов по оверлею
+function closePopupWithOverlay (event) {
+  if(event.target === event.currentTarget) {
+    const allPopup = Array.from(document.querySelectorAll('.popup'))
+    allPopup.forEach(closePopup)
+  }
+}
+
+//функция закрытия попапов по клику на esc
+function closePopupWithEsc (event) {
+  if (event.key === 'Escape') {
+    const allPopup = Array.from(document.querySelectorAll('.popup'))
+    allPopup.forEach(closePopup)
+  }
+}
+
 //слушатели
 
 profileOpenPopupButton.addEventListener('click', openProfilePopup);//слушатель открытия попапа редактирования профиля
@@ -152,7 +169,7 @@ profileOpenPopupButton.addEventListener('click', openProfilePopup);//слуша�
 profileForm.addEventListener('submit', handleProfileFormSubmit);//слушатель сохранения формы попапа редактирования профиля
 
 profileCloseButton.addEventListener('click', function() {
-  closePopup(profilePopup)
+  closePopup(profilePopup);
 }); //слушатель закрытия попапа редактирования профиля
 
 newPlacePopupButton.addEventListener("click", function() {
@@ -160,7 +177,7 @@ newPlacePopupButton.addEventListener("click", function() {
 });//слушатель открытия попапа с формой добавления нового места
 
 newPlaceCloseButton.addEventListener("click", function() {
-  closePopup(newPlacePopup)
+  closePopup(newPlacePopup);
 });//слушатель закрытия попапа с формой добавления нового места
 
 newPlaceForm.addEventListener("submit", addCard);
@@ -172,101 +189,8 @@ fullPictureCloseButton.addEventListener('click', function() {
   closePopup(fullPicturePopup);
 });//слушатель закрытия попапа с увеличенной картинкой
 
+profilePopup.addEventListener('click', closePopupWithOverlay);//слушатель закрытия попапа редактирования профиля по оверлею
 
+newPlacePopup.addEventListener('click', closePopupWithOverlay);//слушатель закрытия попапа добавления карточки по оверлею
 
-///новый код по тренажеру
-
-// Функция, которая добавляет класс с ошибкой
-const showInputError = (formElement, inputElement, errorMessage) => {
-  const errorElement = formElement.querySelector(`.${inputElement.id}-error`);
-  inputElement.classList.add('popup__input_error');
-  errorElement.textContent = errorMessage;
-  errorElement.classList.add('popup__error_visible');
-};
-
-// Функция, которая удаляет класс с ошибкой
-const hideInputError = (formElement, inputElement) => {
-  const errorElement = formElement.querySelector(`.${inputElement.id}-error`);
-  inputElement.classList.remove('popup__input_error');
-  errorElement.classList.remove('popup__error_visible');
-  errorElement.textContent = '';
-};
-
-
-// Функция, которая проверяет валидность поля
-const isValid = (formElement, inputElement) => {
-  if (!inputElement.validity.valid) {
-    // Если поле не проходит валидацию, покажем ошибку
-    showInputError(formElement, inputElement, inputElement.validationMessage);
-  } else {
-    // Если проходит, скроем
-    hideInputError(formElement, inputElement);
-  }
-};
-
-// Функция принимает массив полей
-
-const hasInvalidInput = (inputList) => {
-  // проходим по этому массиву методом some
-  return inputList.some((inputElement) => {
-    // Если поле не валидно, колбэк вернёт true
-    // Обход массива прекратится и вся фунцкция
-    // hasInvalidInput вернёт true
-
-    return !inputElement.validity.valid;
-  })
-};
-
-const setEventListeners = (formElement) => {
-  // Находим все поля внутри формы,
-  // сделаем из них массив методом Array.from
-  const inputList = Array.from(formElement.querySelectorAll('.popup__input'));
-  const buttonElement = formElement.querySelector('.popup__submit-button');
-  toggleButtonState(inputList, buttonElement);
-
-  // Обойдём все элементы полученной коллекции
-  inputList.forEach((inputElement) => {
-    // каждому полю добавим обработчик события input
-    inputElement.addEventListener('input', () => {
-      // Внутри колбэка вызовем isValid,
-      // передав ей форму и проверяемый элемент
-      isValid(formElement, inputElement);
-      toggleButtonState(inputList, buttonElement);
-    });
-  });
-};
-
-
-const enableValidation = () => {
-  // Найдём все формы с указанным классом в DOM,
-  // сделаем из них массив методом Array.from
-  const formList = Array.from(document.querySelectorAll('.popup__form'));
-
-  // Переберём полученную коллекцию
-  formList.forEach((formElement) => {
-    formElement.addEventListener('submit', (evt) => {
-      // У каждой формы отменим стандартное поведение
-      evt.preventDefault();
-    });
-
-    // Для каждой формы вызовем функцию setEventListeners,
-    // передав ей элемент формы
-    setEventListeners(formElement);
-  });
-};
-
-// Вызовем функцию
-enableValidation();
-
-// Функция принимает массив полей ввода
-// и элемент кнопки, состояние которой нужно менять
-
-function toggleButtonState (inputList,buttonElement) {
-  if(hasInvalidInput(inputList)) {
-    buttonElement.classList.add('popup__submit-button_inactive')
-  } else {
-    buttonElement.classList.remove('popup__submit-button_inactive')
-  }
-
-}
-
+fullPicturePopup.addEventListener('click', closePopupWithOverlay);//слушатель закрытия попапа с увеличенной картинкой по оверлею
