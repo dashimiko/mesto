@@ -97,9 +97,9 @@ render();
 
 //функция, создающая карточки
 function createCard(card) {
-  const newItem = cardTemplate.querySelector(".card").cloneNode(true);//клонируем
-  const newItemdescription = newItem.querySelector(".card__description");
-  const newItemPicture = newItem.querySelector(".card__picture");
+  const newItem = cardTemplate.querySelector('.card').cloneNode(true);//клонируем
+  const newItemdescription = newItem.querySelector('.card__description');
+  const newItemPicture = newItem.querySelector('.card__picture');
   newItemdescription.textContent = card.name;
   newItemPicture.src = card.link;
   newItemPicture.alt = card.name;
@@ -172,15 +172,15 @@ profileCloseButton.addEventListener('click', function() {
   closePopup(profilePopup);
 }); //слушатель закрытия попапа редактирования профиля
 
-newPlacePopupButton.addEventListener("click", function() {
+newPlacePopupButton.addEventListener('click', function() {
   openPopup(newPlacePopup)
 });//слушатель открытия попапа с формой добавления нового места
 
-newPlaceCloseButton.addEventListener("click", function() {
+newPlaceCloseButton.addEventListener('click', function() {
   closePopup(newPlacePopup);
 });//слушатель закрытия попапа с формой добавления нового места
 
-newPlaceForm.addEventListener("submit", addCard);
+newPlaceForm.addEventListener('submit', addCard);
 document.querySelector('.popup__close_open-picture').addEventListener('click', function() {
   openPopup(fullPicturePopup)
 });//слушатель открытия попапа с увеличенной картинкой
