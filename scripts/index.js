@@ -30,7 +30,6 @@ const initialCards = [
 //достаем все что нужно для открытия/закрытия/редактирования попапа с формой изменения профиля
 const profileOpenPopupButton = document.querySelector('.profile__edit-button');
 const profilePopup = document.querySelector('.popup_edit-profile');
-const profileCloseButton = document.querySelector('.popup__close_edit-profile');
 const profileForm = document.querySelector('.popup__form_edit-profile');
 const nameInput = document.querySelector('.popup__input_edit_name');
 const jobInput = document.querySelector('.popup__input_edit_description');
@@ -39,7 +38,6 @@ const profileJob = document.querySelector('.profile__description');
 //достаем все что нужно для открытия/закрытия попапа с формой добавления карточки
 const newPlacePopupButton = document.querySelector('.profile__add-button');
 const newPlacePopup = document.querySelector('.popup_new-place');
-const newPlaceCloseButton = document.querySelector('.popup__close_new-place');
 //достаем все что нужно для отображения и появления новых карточек
 const newPlaceSubmit = document.querySelector('.popup__submit-button_place');
 const newPlaceForm = document.querySelector('.popup__form_new-place');
@@ -49,10 +47,11 @@ const elements = document.querySelector('.elements');
 const cardTemplate = document.querySelector("#place-template").content;
 //переменные для попапа с увеличивающейся картинкой
 const fullPicturePopup = document.querySelector('.popup_open-picture');
-const fullPictureCloseButton = document.querySelector('.popup__close_open-picture');
 const cardPictureButton = document.querySelector('.card__picture');
 const fullPictureImage = document.querySelector('.popup__picture');
-const fullPictureTitle = document.querySelector('.popup__description')
+const fullPictureTitle = document.querySelector('.popup__description');
+//переменная для функции, объединяющей объединить обработчики оверлея и крестиков
+const popups = document.querySelectorAll('.popup');
 
 //функции
 
@@ -65,6 +64,7 @@ function openPopup(popup) {
 //универсальная функция для закрытия всех попапов
 function closePopup(popup) {
   popup.classList.remove('popup_opened');
+  document.removeEventListener('keydown', closePopupWithEsc);//слушатель закрытия попапа с увеличенной картинкой по оверлею
 }
 
 //функция для сохранения формы
@@ -116,9 +116,12 @@ function addCard(event) {
     link: placelinkInput.value
   }
   elements.prepend(createCard(object));//другая позиция в доме
-  placeNameInput.value = ''
-  placelinkInput.value = ''
+  newPlaceForm.reset();
+
   closePopup(newPlacePopup);
+
+  newPlaceSubmit.setAttribute('disabled', '');
+  newPlaceSubmit.classList.add('popup__submit-button_inactive');
 }
 
 //функция лайков
@@ -146,21 +149,27 @@ function openImage(event) {
   openPopup(fullPicturePopup);
 }
 
-//функция для слушателей закрытия попапов по оверлею
-function closePopupWithOverlay (event) {
-  if(event.target === event.currentTarget) {
-    const allPopup = Array.from(document.querySelectorAll('.popup'))
-    allPopup.forEach(closePopup)
-  }
-}
-
 //функция закрытия попапов по клику на esc
 function closePopupWithEsc (event) {
   if (event.key === 'Escape') {
-    const allPopup = Array.from(document.querySelectorAll('.popup'))
-    allPopup.forEach(closePopup)
+    const openedPopup = document.querySelector('.popup_opened')
+    closePopup(openedPopup);
   }
 }
+
+//Геннадий, большое-пребольшое спасибо!
+
+//функция, объединяющая обработчики оверлея и крестиков
+popups.forEach((popup) => {
+  popup.addEventListener('mousedown', (evt) => {
+      if (evt.target.classList.contains('popup_opened')) {
+          closePopup(popup)
+      }
+      if (evt.target.classList.contains('popup__close')) {
+        closePopup(popup)
+      }
+  })
+})
 
 //слушатели
 
@@ -168,29 +177,11 @@ profileOpenPopupButton.addEventListener('click', openProfilePopup);//слуша�
 
 profileForm.addEventListener('submit', handleProfileFormSubmit);//слушатель сохранения формы попапа редактирования профиля
 
-profileCloseButton.addEventListener('click', function() {
-  closePopup(profilePopup);
-}); //слушатель закрытия попапа редактирования профиля
-
 newPlacePopupButton.addEventListener('click', function() {
   openPopup(newPlacePopup)
 });//слушатель открытия попапа с формой добавления нового места
-
-newPlaceCloseButton.addEventListener('click', function() {
-  closePopup(newPlacePopup);
-});//слушатель закрытия попапа с формой добавления нового места
 
 newPlaceForm.addEventListener('submit', addCard);
 document.querySelector('.popup__close_open-picture').addEventListener('click', function() {
   openPopup(fullPicturePopup)
 });//слушатель открытия попапа с увеличенной картинкой
-
-fullPictureCloseButton.addEventListener('click', function() {
-  closePopup(fullPicturePopup);
-});//слушатель закрытия попапа с увеличенной картинкой
-
-profilePopup.addEventListener('click', closePopupWithOverlay);//слушатель закрытия попапа редактирования профиля по оверлею
-
-newPlacePopup.addEventListener('click', closePopupWithOverlay);//слушатель закрытия попапа добавления карточки по оверлею
-
-fullPicturePopup.addEventListener('click', closePopupWithOverlay);//слушатель закрытия попапа с увеличенной картинкой по оверлею
