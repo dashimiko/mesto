@@ -1,187 +1,275 @@
+import {FormValidator} from './formValidator.js'
+
+import {Card} from './card.js'
+
+import {fullPictureImage,fullPictureTitle,fullPicturePopup,openPopup,closePopupWithEsc,closePopup,} from "./utils.js"
+
+
 //массив новых карточек
+
 const initialCards = [
-  {
-    name: 'Архыз',
-    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/arkhyz.jpg'
-  },
-  {
-    name: 'Челябинская область',
-    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/chelyabinsk-oblast.jpg'
-  },
-  {
-    name: 'Иваново',
-    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/ivanovo.jpg'
-  },
-  {
-    name: 'Камчатка',
-    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kamchatka.jpg'
-  },
-  {
-    name: 'Холмогорский район',
-    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kholmogorsky-rayon.jpg'
-  },
-  {
-    name: 'Байкал',
-    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/baikal.jpg'
-  }
+
+{
+
+name: 'Архыз',
+
+link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/arkhyz.jpg'
+
+},
+
+{
+
+name: 'Челябинская область',
+
+link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/chelyabinsk-oblast.jpg'
+
+},
+
+{
+
+name: 'Иваново',
+
+link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/ivanovo.jpg'
+
+},
+
+{
+
+name: 'Камчатка',
+
+link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kamchatka.jpg'
+
+},
+
+{
+
+name: 'Холмогорский район',
+
+link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kholmogorsky-rayon.jpg'
+
+},
+
+{
+
+name: 'Байкал',
+
+link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/baikal.jpg'
+
+}
+
 ];
 
+
 //переменные
-//достаем все что нужно для открытия/закрытия/редактирования попапа с формой изменения профиля
-const profileOpenPopupButton = document.querySelector('.profile__edit-button');
+//обертка для карточек
+const elements = document.querySelector('.elements');
+
+//попапы
+const newPlacePopup = document.querySelector('.popup_new-place');
 const profilePopup = document.querySelector('.popup_edit-profile');
+
+//кнопки
+const newPlacePopupButton = document.querySelector('.profile__add-button');
+const profileOpenPopupButton = document.querySelector('.profile__edit-button');
+const newPlaceSubmit = document.querySelector('.popup__submit-button_place');
+const cardPictureButton = document.querySelector('.card__picture');
+
+//формы
+
 const profileForm = document.querySelector('.popup__form_edit-profile');
+const newPlaceForm = document.querySelector('.popup__form_new-place');
+
+//инпуты
 const nameInput = document.querySelector('.popup__input_edit_name');
 const jobInput = document.querySelector('.popup__input_edit_description');
-const profileName = document.querySelector('.profile__name');
-const profileJob = document.querySelector('.profile__description');
-//достаем все что нужно для открытия/закрытия попапа с формой добавления карточки
-const newPlacePopupButton = document.querySelector('.profile__add-button');
-const newPlacePopup = document.querySelector('.popup_new-place');
-//достаем все что нужно для отображения и появления новых карточек
-const newPlaceSubmit = document.querySelector('.popup__submit-button_place');
-const newPlaceForm = document.querySelector('.popup__form_new-place');
 const placeNameInput = document.querySelector(".popup__input_place_name");
 const placelinkInput = document.querySelector(".popup__input_place_link");
-const elements = document.querySelector('.elements');
-const cardTemplate = document.querySelector("#place-template").content;
-//переменные для попапа с увеличивающейся картинкой
-const fullPicturePopup = document.querySelector('.popup_open-picture');
-const cardPictureButton = document.querySelector('.card__picture');
-const fullPictureImage = document.querySelector('.popup__picture');
-const fullPictureTitle = document.querySelector('.popup__description');
+
+//имя и описание профиля из разметки
+const profileName = document.querySelector('.profile__name');
+const profileJob = document.querySelector('.profile__description');
+
 //переменная для функции, объединяющей объединить обработчики оверлея и крестиков
+
 const popups = document.querySelectorAll('.popup');
+
+const enableValidation = {
+
+  formSelector: '.popup__form',
+
+  inputSelector: '.popup__input',
+
+  submitButtonSelector: '.popup__submit-button',
+
+  inactiveButtonClass: 'popup__submit-button_inactive',
+
+  inputErrorClass: 'popup__input_error',
+
+  errorClass: 'popup__error_visible',
+
+  };
+
 
 //функции
 
-//универсальная функция для открытия всех попапов
-function openPopup(popup) {
-  popup.classList.add('popup_opened');
-  document.addEventListener('keydown', closePopupWithEsc);//слушатель закрытия попапа с увеличенной картинкой по оверлею
-}
-
-//универсальная функция для закрытия всех попапов
-function closePopup(popup) {
-  popup.classList.remove('popup_opened');
-  document.removeEventListener('keydown', closePopupWithEsc);//слушатель закрытия попапа с увеличенной картинкой по оверлею
-}
-
 //функция для сохранения формы
+
 function handleProfileFormSubmit (evt) {
-  evt.preventDefault();
-  profileName.textContent = nameInput.value;
-  profileJob.textContent = jobInput.value;
-  closePopup(profilePopup);
+
+evt.preventDefault();
+
+profileName.textContent = nameInput.value;
+
+profileJob.textContent = jobInput.value;
+
+closePopup(profilePopup);
+
 }
+
 
 //функция для наполнения формы содержимым при открытии
+
 function openProfilePopup (){
-  nameInput.value = profileName.textContent;
-  jobInput.value = profileJob.textContent;
-  openPopup(profilePopup);
+
+nameInput.value = profileName.textContent;
+
+jobInput.value = profileJob.textContent;
+
+openPopup(profilePopup);
+
 };
 
+
+
 //функция, рендерящая карточки
-function renderCards(card) {
-  const cardElement = createCard(card);
-  elements.append(cardElement);
+
+function renderCards(data,elements) {
+
+const card = new Card (data,'#place-template');
+
+const cardElement = card.getCardElement();
+
+elements.prepend(cardElement);
+
 }
 
+
+
 //функция, перебирающая карточки в массиве
+
 function render() {
-  initialCards.forEach((card) => renderCards(card));
+
+initialCards.forEach((data) => renderCards(data,elements));
+
 }
+
+
 
 render();
 
-//функция, создающая карточки
-function createCard(card) {
-  const newItem = cardTemplate.querySelector('.card').cloneNode(true);//клонируем
-  const newItemdescription = newItem.querySelector('.card__description');
-  const newItemPicture = newItem.querySelector('.card__picture');
-  newItemdescription.textContent = card.name;
-  newItemPicture.src = card.link;
-  newItemPicture.alt = card.name;
-
-  addListeners(newItem);
-  return newItem;
-}
 
 //функция, переназначающая параметры для карточек, которые создает пользователь
+
 function addCard(event) {
-  event.preventDefault();
-  const object = {
-    name: placeNameInput.value,
-    link: placelinkInput.value
-  }
-  elements.prepend(createCard(object));//другая позиция в доме
-  newPlaceForm.reset();
 
-  closePopup(newPlacePopup);
+event.preventDefault();
 
-  newPlaceSubmit.setAttribute('disabled', '');
-  newPlaceSubmit.classList.add('popup__submit-button_inactive');
+renderCards({
+
+name: placeNameInput.value,
+
+link: placelinkInput.value
+
+}, elements)
+
+newPlaceForm.reset();
+
+
+
+closePopup(newPlacePopup);
+
+
+
+newPlaceSubmit.setAttribute('disabled', '');
+
+newPlaceSubmit.classList.add('popup__submit-button_inactive');
+
 }
 
-//функция лайков
-function likeCard (evt) {
-  evt.target.classList.toggle('card__like_active');
-}
-
-//функция удаления карточек
-function handleDelete (event) {
-  event.target.closest('.card').remove();
-}
-
-//функция со слушателями событий лайка, увеличения картинки и иконки удаления
-function addListeners(el) {
-  el.querySelector('.card__delete-button').addEventListener('click', handleDelete);
-  el.querySelector('.card__picture').addEventListener('click', openImage);
-  el.querySelector('.card__like').addEventListener('click', likeCard);
-}
-
-//функция увеличения картинки
-function openImage(event) {
-  fullPictureImage.src = event.target.src
-  fullPictureImage.alt = event.target.alt
-  fullPictureTitle.textContent = event.target.alt
-  openPopup(fullPicturePopup);
-}
-
-//функция закрытия попапов по клику на esc
-function closePopupWithEsc (event) {
-  if (event.key === 'Escape') {
-    const openedPopup = document.querySelector('.popup_opened')
-    closePopup(openedPopup);
-  }
-}
-
-//Геннадий, большое-пребольшое спасибо!
 
 //функция, объединяющая обработчики оверлея и крестиков
+
 popups.forEach((popup) => {
-  popup.addEventListener('mousedown', (evt) => {
-      if (evt.target.classList.contains('popup_opened')) {
-          closePopup(popup)
-      }
-      if (evt.target.classList.contains('popup__close')) {
-        closePopup(popup)
-      }
-  })
+
+popup.addEventListener('mousedown', (evt) => {
+
+if (evt.target.classList.contains('popup_opened')) {
+
+closePopup(popup)
+
+}
+
+if (evt.target.classList.contains('popup__close')) {
+
+closePopup(popup)
+
+}
+
 })
 
-//слушатели
+})
 
-profileOpenPopupButton.addEventListener('click', openProfilePopup);//слушатель открытия попапа редактирования профиля
+
+
+//слушатели
+profileOpenPopupButton.addEventListener('click', function() {
+
+editProfileValidator.resetErrors()
+
+editProfileValidator.toggleButtonState()
+
+openProfilePopup()
+
+});//слушатель открытия попапа редактирования профиля
+
+
 
 profileForm.addEventListener('submit', handleProfileFormSubmit);//слушатель сохранения формы попапа редактирования профиля
 
+
+
 newPlacePopupButton.addEventListener('click', function() {
-  openPopup(newPlacePopup)
+
+addPlaceValidator.resetErrors()
+
+addPlaceValidator.toggleButtonState()
+
+openPopup(newPlacePopup)
+
 });//слушатель открытия попапа с формой добавления нового места
 
+
+
 newPlaceForm.addEventListener('submit', addCard);
+
 document.querySelector('.popup__close_open-picture').addEventListener('click', function() {
-  openPopup(fullPicturePopup)
+
+openPopup(fullPicturePopup)
+
 });//слушатель открытия попапа с увеличенной картинкой
+
+//новый код
+
+const editProfileValidator = new FormValidator(enableValidation, profileForm);
+
+
+
+const addPlaceValidator = new FormValidator(enableValidation, newPlaceForm);
+
+
+
+editProfileValidator.enableValidation();
+
+
+
+addPlaceValidator.enableValidation();
