@@ -12,7 +12,7 @@ export class Card {
 
 //метод лайка
 _likeCard = () => {
-
+  
   this._likeButton.classList.toggle('card__like_active');
 }
 
