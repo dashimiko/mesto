@@ -2,7 +2,7 @@ import {FormValidator} from './formValidator.js'
 
 import {Card} from './card.js'
 
-import {fullPicturePopup,openPopup,closePopup} from "./utils.js"
+import {openPopup,closePopup} from "./utils.js"
 
 
 //массив карточек
@@ -101,12 +101,17 @@ function openProfilePopup() {
   openPopup(profilePopup);
 };
 
+//функция создания карточки
+function createCard(item) {
+
+  const cardElement = new Card(item, '#place-template').getCardElement();
+  return cardElement
+}
+
 //функция, рендерящая карточки
 function renderCards(data,elements) {
 
-  const card = new Card (data,'#place-template');
-  const cardElement = card.getCardElement();
-
+  const cardElement = createCard(data);
   elements.prepend(cardElement);
 };
 
@@ -131,9 +136,6 @@ function addCard(event) {
   newPlaceForm.reset();
 
   closePopup(newPlacePopup);
-
-  newPlaceSubmit.setAttribute('disabled', '');
-  newPlaceSubmit.classList.add('popup__submit-button_inactive');
 };
 
 
@@ -184,10 +186,4 @@ newPlacePopupButton.addEventListener('click', function() {
   addPlaceValidator.toggleButtonState();
 
   openPopup(newPlacePopup);
-});
-
-//слушатель открытия попапа с увеличенной картинкой
-document.querySelector('.popup__close_open-picture').addEventListener('click', function() {
-
-  openPopup(fullPicturePopup)
 });

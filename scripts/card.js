@@ -1,10 +1,14 @@
 import {fullPictureImage,fullPictureTitle,fullPicturePopup,openPopup} from "./utils.js";
 
 export class Card {
-  constructor (data,cardTemplate) {
-    this._cardTemplate = cardTemplate;
+  constructor (data,cardSelector) {
+    this._cardSelector = cardSelector;
     this._name = data.name;
     this._link = data.link;
+    this._alt = 'На изображении ' + data.name;
+    this._cardTemplate = document
+            .querySelector("#place-template")
+            .content
 }
 
 //метод лайка
@@ -23,7 +27,7 @@ _handleDelete = () => {
 _openImage = () => {
 
   fullPictureImage.src = this._link
-  fullPictureImage.alt = `изображение ${this._name}`
+  fullPictureImage.alt = this._alt
   fullPictureTitle.textContent = this._name
 
   openPopup(fullPicturePopup);
@@ -42,13 +46,12 @@ _addListeners = () => {
 _fillCard = () => {
 
   this._cardImage.src = this._link;
+  this._cardImage.alt = this._alt;
   this._cardElement.querySelector('.card__description').textContent = this._name;
 }
 
 //метод, создающий карточки
 getCardElement() {
-
-  this._cardTemplate = document.querySelector("#place-template").content;
   this._cardElement = this._cardTemplate.querySelector('.card').cloneNode(true);
 
   this._likeButton = this._cardElement.querySelector('.card__like');
