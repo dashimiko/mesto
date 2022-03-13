@@ -2,7 +2,7 @@ import {FormValidator} from './formValidator.js'
 
 import {Card} from './card.js'
 
-import {openPopup,closePopup} from "./utils.js"
+import {fullPictureImage,fullPictureTitle,fullPicturePopup,openPopup,closePopup} from "./utils.js";
 
 
 //массив карточек
@@ -80,6 +80,15 @@ const enableValidation = {
 
 //функции
 
+//функция, которая передает данные для того чтобы открывать попап с увеличенной картинкой (передаем третьим аргементов в конструкторе карточки)
+function handleCardClick() {
+  fullPictureImage.src = this._link
+  fullPictureImage.alt = this._alt
+  fullPictureTitle.textContent = this._name
+
+  openPopup(fullPicturePopup);
+};
+
 //функция для сохранения формы
 function handleProfileFormSubmit(evt) {
 
@@ -104,7 +113,7 @@ function openProfilePopup() {
 //функция создания карточки
 function createCard(item) {
 
-  const cardElement = new Card(item, '#place-template').getCardElement();
+  const cardElement = new Card(item, '#place-template', handleCardClick).getCardElement();
   return cardElement
 }
 

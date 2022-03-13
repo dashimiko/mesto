@@ -1,7 +1,6 @@
-import {fullPictureImage,fullPictureTitle,fullPicturePopup,openPopup} from "./utils.js";
-
 export class Card {
-  constructor (data,cardSelector) {
+  constructor (data,cardSelector,handleCardClick) {
+    this._handleCardClick = handleCardClick;
     this._cardSelector = cardSelector;
     this._name = data.name;
     this._link = data.link;
@@ -23,23 +22,16 @@ _handleDelete = () => {
   this._cardElement.closest('.card').remove();
 }
 
-//метод открытия попапа с большой картинкой
-_openImage = () => {
-
-  fullPictureImage.src = this._link
-  fullPictureImage.alt = this._alt
-  fullPictureTitle.textContent = this._name
-
-  openPopup(fullPicturePopup);
-}
-
 //метод, объединяющий слушатели событий
 _addListeners = () => {
 
   const deleteButton = this._cardElement.querySelector('.card__delete-button');
   this._likeButton.addEventListener('click',this._likeCard);
   deleteButton.addEventListener('click',this._handleDelete);
-  this._cardImage.addEventListener('click',this._openImage);
+
+  this._cardImage.addEventListener('click', () => {
+    this._handleCardClick(this._name, this._link)
+  });
 }
 
 //метод, наполняющий карточки
