@@ -1,18 +1,17 @@
 export class Card {
   constructor (data,cardSelector,handleCardClick) {
     this._handleCardClick = handleCardClick;
-    this._cardSelector = cardSelector;
     this._name = data.name;
     this._link = data.link;
     this._alt = 'На изображении ' + data.name;
     this._cardTemplate = document
-            .querySelector("#place-template")
+            .querySelector(cardSelector)
             .content
 }
 
 //метод лайка
 _likeCard = () => {
-  
+
   this._likeButton.classList.toggle('card__like_active');
 }
 

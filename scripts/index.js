@@ -81,10 +81,10 @@ const enableValidation = {
 //функции
 
 //функция, которая передает данные для того чтобы открывать попап с увеличенной картинкой (передаем третьим аргементов в конструкторе карточки)
-function handleCardClick() {
-  fullPictureImage.src = this._link
-  fullPictureImage.alt = this._alt
-  fullPictureTitle.textContent = this._name
+function handleCardClick(name,link) {
+  fullPictureImage.src = link
+  fullPictureImage.alt = 'На изображении ' + name
+  fullPictureTitle.textContent = name
 
   openPopup(fullPicturePopup);
 };
