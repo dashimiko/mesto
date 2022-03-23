@@ -2,6 +2,12 @@ import {FormValidator} from './FormValidator.js'
 
 import {Card} from './Card.js'
 
+import Section from './Section.js'
+
+import Popup from './Popup.js'
+
+import PopupWithImage from './PopupWithImage.js'
+
 import {fullPictureImage,fullPictureTitle,fullPicturePopup,openPopup,closePopup} from "./utils.js";
 
 
@@ -35,6 +41,7 @@ const initialCards = [{
   name: 'Байкал',
   link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/baikal.jpg'
 }];
+
 
 
 //переменные
@@ -78,8 +85,77 @@ const enableValidation = {
   errorClass: 'popup__error_visible',
 };
 
-//функции
+//рендерим карточки
+const cardsList = new Section({
+  items: initialCards,
+  renderer: items => {
+    const cardElement = new Card(items, '#place-template', handleCardClick).getCardElement();
+    return cardElement;
+  }
+}, ".elements")
 
+
+//вызываем ренедер карточек
+cardsList.renderItems()
+
+function createCard(item) {
+
+  const cardElement = new Card(item, '#place-template', handleCardClick).getCardElement();
+  return cardElement
+}
+
+/*
+function handleCardClick(name,link) {
+  fullPictureImage.src = link
+  fullPictureImage.alt = 'На изображении ' + name
+  fullPictureTitle.textContent = name
+
+  const popupImage = new Popup (fullPicturePopup).open()
+  return popupImage
+};
+
+*/
+
+
+//функция, которая передает данные для того чтобы открывать попап с увеличенной картинкой (передаем третьим аргементом в классе конструктора карточки)
+function handleCardClick(data) {
+  const popupImage = new PopupWithImage(fullPicturePopup).open(data)
+  return popupImage
+}
+
+
+//подключение валидации
+const editProfileValidator = new FormValidator(enableValidation, profileForm);
+const addPlaceValidator = new FormValidator(enableValidation, newPlaceForm);
+
+editProfileValidator.enableValidation();
+addPlaceValidator.enableValidation();
+
+//слушатель открытия попапа редактирования профиля
+profileOpenPopupButton.addEventListener('click', function() {
+
+  editProfileValidator.resetErrors();
+
+  editProfileValidator.toggleButtonState();
+
+  const openingPrifilePopup = new Popup(profilePopup).open()
+  return openingPrifilePopup;
+});
+
+//слушатель открытия попапа с формой добавления нового места
+newPlacePopupButton.addEventListener('click', function() {
+
+  addPlaceValidator.resetErrors();
+
+  addPlaceValidator.toggleButtonState();
+
+  const openingNewPlacePopup = new Popup(newPlacePopup).open()
+  return openingNewPlacePopup;
+});
+
+
+//функции
+/*
 //функция, которая передает данные для того чтобы открывать попап с увеличенной картинкой (передаем третьим аргементов в конструкторе карточки)
 function handleCardClick(name,link) {
   fullPictureImage.src = link
@@ -111,6 +187,7 @@ function openProfilePopup() {
 };
 
 //функция создания карточки
+
 function createCard(item) {
 
   const cardElement = new Card(item, '#place-template', handleCardClick).getCardElement();
@@ -131,6 +208,7 @@ function render() {
 };
 
 render();
+
 
 //функция, переназначающая параметры для карточек, которые создает пользователь
 function addCard(event) {
@@ -162,12 +240,14 @@ popups.forEach((popup) => {
   })
 });
 
+
 //подключение валидации
 const editProfileValidator = new FormValidator(enableValidation, profileForm);
 const addPlaceValidator = new FormValidator(enableValidation, newPlaceForm);
 
 editProfileValidator.enableValidation();
 addPlaceValidator.enableValidation();
+
 
 //слушатели
 
@@ -196,3 +276,4 @@ newPlacePopupButton.addEventListener('click', function() {
 
   openPopup(newPlacePopup);
 });
+*/
