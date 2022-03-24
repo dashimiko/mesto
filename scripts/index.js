@@ -8,6 +8,10 @@ import Popup from './Popup.js'
 
 import PopupWithImage from './PopupWithImage.js'
 
+import PopupWithForm from './PopupWithImage.js'
+
+import UserInfo from './UserInfo.js'
+
 import {fullPictureImage,fullPictureTitle,fullPicturePopup,openPopup,closePopup} from "./utils.js";
 
 
@@ -41,8 +45,6 @@ const initialCards = [{
   name: 'Байкал',
   link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/baikal.jpg'
 }];
-
-
 
 //переменные
 
@@ -104,25 +106,11 @@ function createCard(item) {
   return cardElement
 }
 
-/*
-function handleCardClick(name,link) {
-  fullPictureImage.src = link
-  fullPictureImage.alt = 'На изображении ' + name
-  fullPictureTitle.textContent = name
-
-  const popupImage = new Popup (fullPicturePopup).open()
-  return popupImage
-};
-
-*/
-
-
-//функция, которая передает данные для того чтобы открывать попап с увеличенной картинкой (передаем третьим аргементом в классе конструктора карточки)
+//функция, которая передает данные для открытия попапа с увеличенной картинкой (третий аргемент в классе конструктора карточки)
 function handleCardClick(data) {
   const popupImage = new PopupWithImage(fullPicturePopup).open(data)
   return popupImage
 }
-
 
 //подключение валидации
 const editProfileValidator = new FormValidator(enableValidation, profileForm);
@@ -130,6 +118,7 @@ const addPlaceValidator = new FormValidator(enableValidation, newPlaceForm);
 
 editProfileValidator.enableValidation();
 addPlaceValidator.enableValidation();
+
 
 //слушатель открытия попапа редактирования профиля
 profileOpenPopupButton.addEventListener('click', function() {
@@ -150,9 +139,8 @@ newPlacePopupButton.addEventListener('click', function() {
   addPlaceValidator.toggleButtonState();
 
   const openingNewPlacePopup = new Popup(newPlacePopup).open()
-  return openingNewPlacePopup;
+  return openingNewPlacePopup
 });
-
 
 //функции
 /*
@@ -277,3 +265,4 @@ newPlacePopupButton.addEventListener('click', function() {
   openPopup(newPlacePopup);
 });
 */
+
