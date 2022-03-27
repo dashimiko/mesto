@@ -4,11 +4,11 @@ import {Card} from './Card.js'
 
 import Section from './Section.js'
 
-import Popup from './Popup.js'
-
 import PopupWithImage from './PopupWithImage.js'
 
-import PopupWithForm from './PopupWithImage.js'
+import PopupWithForm from './PopupWithForm.js'
+
+import Popup from './Popup.js'
 
 import UserInfo from './UserInfo.js'
 
@@ -71,8 +71,8 @@ const placeNameInput = document.querySelector(".popup__input_place_name");
 const placelinkInput = document.querySelector(".popup__input_place_link");
 
 //имя и описание профиля из разметки
-const profileName = document.querySelector('.profile__name');
-const profileJob = document.querySelector('.profile__description');
+const profileName = '.profile__name';
+const profileJob = '.profile__description';
 
 //переменная для функции, объединяющей обработчики оверлея и крестиков
 const popups = document.querySelectorAll('.popup');
@@ -87,7 +87,6 @@ const enableValidation = {
   errorClass: 'popup__error_visible',
 };
 
-//рендерим карточки
 const cardsList = new Section({
   items: initialCards,
   renderer: items => {
@@ -96,51 +95,29 @@ const cardsList = new Section({
   }
 }, ".elements")
 
+function createCard (data) {
+  const cardElement = new Card(data, cardSelector, handleCardClick).getCardElement();
+    return cardElement;
+}
 
 //вызываем ренедер карточек
 cardsList.renderItems()
 
-function createCard(item) {
-
-  const cardElement = new Card(item, '#place-template', handleCardClick).getCardElement();
-  return cardElement
-}
 
 //функция, которая передает данные для открытия попапа с увеличенной картинкой (третий аргемент в классе конструктора карточки)
 function handleCardClick(data) {
-  const popupImage = new PopupWithImage(fullPicturePopup).open(data)
+  popupImage.open(data)
   return popupImage
 }
 
+const popupImage = new PopupWithImage('.popup_open-picture')
+
 //подключение валидации
-const editProfileValidator = new FormValidator(enableValidation, profileForm);
-const addPlaceValidator = new FormValidator(enableValidation, newPlaceForm);
+const editProfileValidator = new FormValidator(enableValidation, profileForm)
+const addPlaceValidator = new FormValidator(enableValidation, newPlaceForm)
 
 editProfileValidator.enableValidation();
 addPlaceValidator.enableValidation();
-
-
-//слушатель открытия попапа редактирования профиля
-profileOpenPopupButton.addEventListener('click', function() {
-
-  editProfileValidator.resetErrors();
-
-  editProfileValidator.toggleButtonState();
-
-  const openingPrifilePopup = new Popup(profilePopup).open()
-  return openingPrifilePopup;
-});
-
-//слушатель открытия попапа с формой добавления нового места
-newPlacePopupButton.addEventListener('click', function() {
-
-  addPlaceValidator.resetErrors();
-
-  addPlaceValidator.toggleButtonState();
-
-  const openingNewPlacePopup = new Popup(newPlacePopup).open()
-  return openingNewPlacePopup
-});
 
 //функции
 /*
@@ -265,4 +242,67 @@ newPlacePopupButton.addEventListener('click', function() {
   openPopup(newPlacePopup);
 });
 */
+
+// Попап редактирования
+
+const handleProfileFormSubmit = (data) => {
+
+  const { name, description } = data
+
+  userInfo.setUserInfo(name,description)
+
+
+  editProfilePopup.close()
+
+};
+
+const addCard = (data) => {
+  const card = createCard({
+    name: data['place'],
+    link: data.link
+  })
+
+  console.log('data',data)
+
+  cardsList.addItem(card)
+
+  addCardPopup.close();
+};
+
+const addCardPopup = new PopupWithForm('.popup_new-place', addCard)
+
+const editProfilePopup = new PopupWithForm('.popup_edit-profile',handleProfileFormSubmit)
+
+addCardPopup.setEventListeners()
+
+editProfilePopup.setEventListeners()
+
+popupImage.setEventListeners()
+
+//слушатель открытия попапа с формой добавления нового места
+newPlacePopupButton.addEventListener('click', function() {
+
+  addPlaceValidator.toggleButtonState();
+
+  addCardPopup.open();
+});
+
+//слушатель открытия попапа редактирования профиля
+profileOpenPopupButton.addEventListener('click', () => {
+
+  const data = userInfo.getUserInfo()
+
+  nameInput.value = data.name;
+  jobInput.value = data.job;
+
+  editProfileValidator.toggleButtonState();
+
+  editProfilePopup.open()
+});
+
+
+const userInfo = new UserInfo ({nameSelector: '.profile__name', jobSelector: '.profile__description'})
+
+
+
 

@@ -1,6 +1,6 @@
 export default class Section {
   constructor(popup) {
-    this._popup = popup;
+    this._popup = document.querySelector(popup);
   }
 
   open() {
@@ -24,16 +24,11 @@ export default class Section {
     }
   }
 
-  setEventListeners = (event) => {
-
-    if (event.target.classList.contains('popup_opened')) {
-
-      this.close()
-    }
-
-    if (event.target.classList.contains('popup__close')) {
-
-      this.close()
-    }
+  setEventListeners = () => {
+    this._popup.addEventListener('mousedown', (evt) => {
+      if (evt.target.classList.contains('popup_opened') || evt.target.classList.contains('popup__close')) {
+        this.close()
+      }
+    })
   };
 }
