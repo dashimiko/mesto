@@ -43,7 +43,6 @@ export class FormValidator {
 
   //метод принимает массив полей и проходит по нему, оценивая валидность
   _hasInvalidInput() {
-
     return this._inputList.some((inputElement) => {
       return !inputElement.validity.valid;
     })
@@ -53,11 +52,9 @@ export class FormValidator {
   toggleButtonState() {
 
     if(this._hasInvalidInput()) {
-
       this._buttonElement.setAttribute('disabled', '');
       this._buttonElement.classList.add(this._settings.inactiveButtonClass);
     } else {
-
       this._buttonElement.classList.remove(this._settings.inactiveButtonClass);
       this._buttonElement.removeAttribute('disabled');
     }
@@ -65,7 +62,6 @@ export class FormValidator {
 
   //метод, который устанавливает обработчики
   _setEventListeners() {
-
     this.toggleButtonState(this._settings.inactiveButtonClass);
     // Обойдём все элементы коллекции
     this._inputList.forEach((inputElement) => {
@@ -80,7 +76,6 @@ export class FormValidator {
 
   //метод, который включает валидацию формы
   enableValidation() {
-
     this._form.addEventListener('submit', (evt) => {
 
       evt.preventDefault();
@@ -90,7 +85,6 @@ export class FormValidator {
 
   //метод для сброса ошибок при повторном открытии формы
   resetErrors() {
-
     this._form.reset();
 
     this._inputList.forEach((inputElement) => {

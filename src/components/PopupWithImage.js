@@ -1,9 +1,9 @@
-import Popup from "./Popup.js";
+import {Popup} from "./Popup.js";
 
-export default class PopupWithImage extends Popup {
+export class PopupWithImage extends Popup {
 
+  //перезаписываем родительский метод
   open({name,link}) {
-
     const fullPictureImage = this._popup.querySelector('.popup__picture')
     const fullPictureTitle = this._popup.querySelector('.popup__description')
 
