@@ -49,7 +49,7 @@ export class FormValidator {
   };
 
   // метод который меняет состояние кнопки в зависимости от валидности
-  toggleButtonState() {
+  _toggleButtonState() {
 
     if(this._hasInvalidInput()) {
       this._buttonElement.setAttribute('disabled', '');
@@ -62,14 +62,14 @@ export class FormValidator {
 
   //метод, который устанавливает обработчики
   _setEventListeners() {
-    this.toggleButtonState(this._settings.inactiveButtonClass);
+    this._toggleButtonState();
     // Обойдём все элементы коллекции
     this._inputList.forEach((inputElement) => {
       // каждому полю добавлен обработчик события input
       inputElement.addEventListener('input', () => {
         // Внутри колбэка зовем isValid, передавая ей форму и проверяемый элемент
         this._isValid(inputElement);
-        this.toggleButtonState();
+        this._toggleButtonState();
       });
     });
   };
@@ -83,12 +83,13 @@ export class FormValidator {
       this._setEventListeners();
     };
 
-  //метод для сброса ошибок при повторном открытии формы
-  resetErrors() {
-    this._form.reset();
+  //метод очищающий ошибки и управляющий кнопкой
+  resetValidation() {
+    this._toggleButtonState();
 
     this._inputList.forEach((inputElement) => {
       this._hideInputError(inputElement)
-    })
+    });
+
   }
 };

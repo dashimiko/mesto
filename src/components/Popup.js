@@ -10,11 +10,10 @@ export class Popup {
     }
   }
 
-  //метод, устанавливающий обработчики крестиков и оверля
-  _setEventListeners = () => {
+  setEventListeners() {
     this._popup.addEventListener('mousedown', (event) => {
       if (event.target.classList.contains('popup_opened') || event.target.classList.contains('popup__close')) {
-        this.close();
+        this.close()
       }
     })
   }
@@ -23,7 +22,6 @@ export class Popup {
   open() {
     this._popup.classList.add('popup_opened');
 
-    this._popup.addEventListener('mousedown', this._setEventListeners);
     document.addEventListener('keydown', this._handleEscClose);
   }
 
@@ -31,7 +29,6 @@ export class Popup {
   close() {
     this._popup.classList.remove('popup_opened');
 
-    this._popup.removeEventListener('mousedown', this._setEventListeners);
     document.removeEventListener('keydown', this._handleEscClose);
   }
 }
