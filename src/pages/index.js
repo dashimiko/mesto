@@ -10,6 +10,8 @@ import {PopupWithForm} from '../components/PopupWithForm.js'
 
 import {UserInfo} from '../components/UserInfo.js'
 
+import './index.css'
+
 //переменные
 
 //формы

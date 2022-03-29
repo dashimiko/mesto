@@ -18,7 +18,6 @@ export class PopupWithForm extends Popup {
     return formValues
   }
 
-  //из этого метода обработчик не работает
   setEventListeners = () => {
     this._submitForm(this._getInputValues())
 
