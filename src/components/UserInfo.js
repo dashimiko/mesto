@@ -8,14 +8,14 @@ export class UserInfo {
   getUserInfo() {
     const userData = {
       name: this._profileName.textContent,
-      description: this._profileJob.textContent,
+      about: this._profileJob.textContent,
     }
     return userData
   }
 
   //принимает новые данные для профиля и добавляет их на страницу
-  setUserInfo({name,description}) {
+  setUserInfo(name,about) {
     this._profileName.textContent = name;
-    this._profileJob.textContent = description;
+    this._profileJob.textContent = about;
   }
 }
