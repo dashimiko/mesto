@@ -4,6 +4,9 @@ export class Card {
     this._name = data.place;
     this._link = data.link;
     this._likes = data.likes;
+    this._id = data.id;
+    this._userId = data.userId
+    this._ownerId = data.ownerId
 
 
     this._handleDeleteClick = handleDeleteClick;
@@ -18,17 +21,16 @@ export class Card {
     this._likeButton.classList.toggle('card__like_active');
   }
 
-  //метод удаления карточки
-  //_handleDelete = () => {
-    //this._cardElement.closest('.card').remove();
-  //}
+  deleteCard  = () => {
+    this._cardElement.closest('.card').remove();
+  }
 
   //метод, объединяющий слушатели событий
   _addListeners = () => {
     const deleteButton = this._cardElement.querySelector('.card__delete-button');
     this._likeButton.addEventListener('click',this._likeCard);
     deleteButton.addEventListener('click', () => {
-      this._handleDeleteClick()
+      this._handleDeleteClick(this._id)
     });
 
     this._cardImage.addEventListener('click', () => {
@@ -58,6 +60,10 @@ export class Card {
     this._fillCard();
     this._addListeners();
     this._setLikes();
+
+    if(this._ownerId !== this._userId) {
+      this._cardElement.querySelector('.card__delete-button').style.display = 'none'
+    }
 
     return this._cardElement;
   };

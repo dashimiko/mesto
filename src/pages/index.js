@@ -12,14 +12,19 @@ import {UserInfo} from '../components/UserInfo.js'
 
 import { api } from '../components/Api.js'
 
+import { PopupWithConfirmation } from '../components/PopupWithConfirmation.js'
+
 import {profileForm,newPlaceForm,nameInput,jobInput,newPlacePopupButton,profileOpenPopupButton,initialCards,enableValidation} from '../utils/constants.js'
 
 import './index.css'
 
+let userId
+
 api.getProfile()
 .then(res => {
-  //console.log('ответ',res)
+  console.log(res)
   dataUserInfo.setUserInfo(res.name,res.about)
+  userId = res._id
 })
 
 api.getInitialCards()
@@ -29,6 +34,9 @@ api.getInitialCards()
       place: data.name,
       link: data.link,
       likes: data.likes,
+      id: data._id,
+      userId: userId,
+      ownerId: data.owner._id
     })
     cardsList.addItem(card)
   })
@@ -57,12 +65,20 @@ const elements = []
 
 function createCard(item) {
 
-  return new Card(item, '#place-template', handleCardClick, handleDeleteClick).getCardElement()
+  const card = new Card(item, '#place-template', handleCardClick, (id) => {
+    deletePopup.open()
+    deletePopup.changeSubmitHandler(()=>{
+      api.deleteCard(id)
+      .then(res => {
+        deletePopup.close()
+        card.deleteCard()
+      })
+    })
+  })
+  return card.getCardElement()
 }
 
-function handleDeleteClick() {
-  deletePopup.open()
-}
+//function handleDeleteClick() {}
 
 //сабмитим форму редктирования профиля
 const editProfilePopup = new PopupWithForm('.popup_edit-profile', (data) => {
@@ -84,11 +100,13 @@ const addCardPopup = new PopupWithForm('.popup_new-place', (data) => {
   //})
   api.addImage(data.place,data.link,data.likes)
   .then(res => {
-    console.log('res',res)
     const card = createCard({
     place: res.name,
     link: res.link,
     likes: res.likes,
+    id: res._id,
+    userId: userId,
+    ownerId: res.owner._id
     })
     cardsList.addItem(card)
     addCardPopup.close();
@@ -104,12 +122,7 @@ function handleCardClick(data) {
   popupImage.open(data)
 }
 
-const deletePopup = new PopupWithForm('.popup_delete', () => {
-  api.deleteCard('624d6c053407a100bb9b4c26')
-  .then(res => {
-    console.log('res',res)
-  })
-})
+const deletePopup = new PopupWithConfirmation('.popup_delete')
 
 deletePopup.setEventListeners()
 

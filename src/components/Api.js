@@ -43,7 +43,7 @@ class Api {
     .catch(console.log)
   }
 
-  deleteCard() {
+  deleteCard(id) {
     return fetch(`${this._baseUrl}/cards/${id}`,{
       method: "DELETE",
       headers: this._headers,
