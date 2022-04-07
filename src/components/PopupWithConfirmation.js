@@ -1,21 +1,21 @@
 import {Popup} from "./Popup.js";
 
 export class PopupWithConfirmation extends Popup {
-    constructor(popup, handleConfirmPopup) {
+    constructor(popup, confirmPopup) {
         super(popup)
-        this._handleConfirmPopup = handleConfirmPopup;
+        this._confirmPopup = confirmPopup;
         this._deleteButton = this._popup.querySelector('.popup__submit-button')
     }
 
     changeSubmitHandler(newSubmitHandler) {
-      this._handleConfirmPopup = newSubmitHandler
+      this._confirmPopup = newSubmitHandler
     }
 
     setEventListeners() {
         super.setEventListeners()
         this._deleteButton.addEventListener('click', event => {
           event.preventDefault()
-          this._handleConfirmPopup()
+          this._confirmPopup()
         })
     }
 }

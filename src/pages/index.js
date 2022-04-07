@@ -74,6 +74,21 @@ function createCard(item) {
         card.deleteCard()
       })
     })
+  },
+  (id) => {
+    if(card.isLiked()) {
+      api.deleteLike(id)
+    .then(res => {
+      card.setLikes(res.likes)
+      //console.log(res)
+    })
+    } else {
+      api.addLike(id)
+    .then(res => {
+      card.setLikes(res.likes)
+      //console.log(res)
+    })
+    }
   })
   return card.getCardElement()
 }

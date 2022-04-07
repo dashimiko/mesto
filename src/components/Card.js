@@ -1,5 +1,5 @@
 export class Card {
-  constructor (data,cardSelector,handleCardClick,handleDeleteClick) {
+  constructor (data,cardSelector,handleCardClick,handleDeleteClick,handleLikeClick) {
     this._handleCardClick = handleCardClick;
     this._name = data.place;
     this._link = data.link;
@@ -10,6 +10,8 @@ export class Card {
 
 
     this._handleDeleteClick = handleDeleteClick;
+    this._handleLikeClick = handleLikeClick;
+
     this._alt = 'На изображении ' + data.name;
     this._cardTemplate = document
             .querySelector(cardSelector)
@@ -17,9 +19,13 @@ export class Card {
   }
 
   //метод лайка
-  _likeCard = () => {
-    this._likeButton.classList.toggle('card__like_active');
+  _fillLike = () => {
+   this._likeButton.classList.add('card__like_active');
   }
+
+  _deleteLike = () => {
+    this._likeButton.classList.remove('card__like_active');
+   }
 
   deleteCard  = () => {
     this._cardElement.closest('.card').remove();
@@ -28,7 +34,10 @@ export class Card {
   //метод, объединяющий слушатели событий
   _addListeners = () => {
     const deleteButton = this._cardElement.querySelector('.card__delete-button');
-    this._likeButton.addEventListener('click',this._likeCard);
+    this._likeButton.addEventListener('click',() => {
+      this._handleLikeClick(this._id)
+    });
+
     deleteButton.addEventListener('click', () => {
       this._handleDeleteClick(this._id)
     });
@@ -45,11 +54,22 @@ export class Card {
     this._cardElement.querySelector('.card__description').textContent = this._name;
   }
 
-  _setLikes() {
+  setLikes(newLikes) {
+    this._likes = newLikes
     const likeCounElement = this._cardElement.querySelector('.card__like-count');
     likeCounElement.textContent = this._likes.length;
+
+    if(this.isLiked()) {
+      this._fillLike()
+    } else {
+      this._deleteLike()
+    }
   }
 
+  isLiked(){
+    const userHasLikedCard = this._likes.find(user => user._id === this._userId)
+    return userHasLikedCard
+  }
 
   //метод, создающий карточки
   getCardElement() {
@@ -59,7 +79,7 @@ export class Card {
 
     this._fillCard();
     this._addListeners();
-    this._setLikes();
+    this.setLikes(this._likes);
 
     if(this._ownerId !== this._userId) {
       this._cardElement.querySelector('.card__delete-button').style.display = 'none'
