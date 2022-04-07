@@ -9,6 +9,7 @@ export const jobInput = document.querySelector('.popup__input_edit_description')
 //кнопки открытия попапов
 export const newPlacePopupButton = document.querySelector('.profile__add-button');
 export const profileOpenPopupButton = document.querySelector('.profile__edit-button');
+export const avatarPopupButton = document.querySelector('.profile__avatar-container');
 
 //массив исходных карточек
 export const initialCards = [{

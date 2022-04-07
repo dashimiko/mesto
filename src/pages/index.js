@@ -14,7 +14,7 @@ import { api } from '../components/Api.js'
 
 import { PopupWithConfirmation } from '../components/PopupWithConfirmation.js'
 
-import {profileForm,newPlaceForm,nameInput,jobInput,newPlacePopupButton,profileOpenPopupButton,initialCards,enableValidation} from '../utils/constants.js'
+import {profileForm,newPlaceForm,nameInput,jobInput,newPlacePopupButton,profileOpenPopupButton,avatarPopupButton,initialCards,enableValidation} from '../utils/constants.js'
 
 import './index.css'
 
@@ -24,8 +24,10 @@ api.getProfile()
 .then(res => {
   console.log(res)
   dataUserInfo.setUserInfo(res.name,res.about)
+  dataUserInfo.setAvatarInfo(res.avatar);
   userId = res._id
 })
+
 
 api.getInitialCards()
 .then(elements => {
@@ -45,7 +47,8 @@ api.getInitialCards()
 //данные для редактирования профиля
 const dataUserInfo = new UserInfo ({
   nameSelector: '.profile__name',
-  jobSelector: '.profile__description'
+  jobSelector: '.profile__description',
+  avatarSelector: '.profile__avatar'
 })
 
 //валидируем формы
@@ -130,7 +133,17 @@ const addCardPopup = new PopupWithForm('.popup_new-place', (data) => {
 
 addCardPopup.setEventListeners()
 
-//popup_delete
+const editAvatarPopup = new PopupWithForm('.popup_change-avatar', (data) => {
+  const {avatar} = data
+  api.editAvatar(avatar)
+  .then(res => {
+    dataUserInfo.setAvatarInfo(avatar);
+    editAvatarPopup.close()
+  })
+})
+
+editAvatarPopup.setEventListeners()
+
 
 //функция, которая передает данные для того чтобы открывать попап с увеличенной картинкой (третий аргемент в конструкторе карточки)
 function handleCardClick(data) {
@@ -148,6 +161,10 @@ newPlacePopupButton.addEventListener('click', () => {
 
   addCardPopup.open()
 });
+
+avatarPopupButton.addEventListener('click', () => {
+  editAvatarPopup.open()
+})
 
 //открываем форму редактирования профиля
 profileOpenPopupButton.addEventListener('click', () => {
