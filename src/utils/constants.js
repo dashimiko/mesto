@@ -3,6 +3,7 @@
 //формы
 export const profileForm = document.querySelector('.popup__form_edit-profile');
 export const newPlaceForm = document.querySelector('.popup__form_new-place');
+export const editAvatarForm = document.querySelector('.popup__form_avatar');
 //инпуты имени и описания человека в попапе
 export const nameInput = document.querySelector('.popup__input_edit_name');
 export const jobInput = document.querySelector('.popup__input_edit_description');

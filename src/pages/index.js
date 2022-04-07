@@ -14,7 +14,7 @@ import { api } from '../components/Api.js'
 
 import { PopupWithConfirmation } from '../components/PopupWithConfirmation.js'
 
-import {profileForm,newPlaceForm,nameInput,jobInput,newPlacePopupButton,profileOpenPopupButton,avatarPopupButton,initialCards,enableValidation} from '../utils/constants.js'
+import {profileForm,editAvatarForm, newPlaceForm,nameInput,jobInput,newPlacePopupButton,profileOpenPopupButton,avatarPopupButton,initialCards,enableValidation} from '../utils/constants.js'
 
 import './index.css'
 
@@ -53,6 +53,7 @@ const dataUserInfo = new UserInfo ({
 
 //валидируем формы
 const editProfileValidator = new FormValidator(enableValidation, profileForm)
+const editAvatarValidator = new FormValidator(enableValidation, editAvatarForm)
 const addPlaceValidator = new FormValidator(enableValidation, newPlaceForm)
 //подключаем функционал увеличенной картинки
 const popupImage = new PopupWithImage('.popup_open-picture')
@@ -100,6 +101,7 @@ function createCard(item) {
 
 //сабмитим форму редктирования профиля
 const editProfilePopup = new PopupWithForm('.popup_edit-profile', (data) => {
+  editProfilePopup.renderLoading(true)
   const {name, about} = data
   api.editProfile(name, about)
   .then(res => {
@@ -116,6 +118,7 @@ const addCardPopup = new PopupWithForm('.popup_new-place', (data) => {
    // place: data.place,
    // link: data.link
   //})
+  addCardPopup.renderLoading(true)
   api.addImage(data.place,data.link,data.likes)
   .then(res => {
     const card = createCard({
@@ -134,6 +137,7 @@ const addCardPopup = new PopupWithForm('.popup_new-place', (data) => {
 addCardPopup.setEventListeners()
 
 const editAvatarPopup = new PopupWithForm('.popup_change-avatar', (data) => {
+  editAvatarPopup.renderLoading(true)
   const {avatar} = data
   api.editAvatar(avatar)
   .then(res => {
@@ -163,6 +167,8 @@ newPlacePopupButton.addEventListener('click', () => {
 });
 
 avatarPopupButton.addEventListener('click', () => {
+  editAvatarValidator.resetValidation();
+
   editAvatarPopup.open()
 })
 
@@ -181,6 +187,7 @@ profileOpenPopupButton.addEventListener('click', () => {
 //валидируем
 editProfileValidator.enableValidation();
 addPlaceValidator.enableValidation();
+editAvatarValidator.enableValidation();
 
 //рендерим карточки
 //cardsList.renderItems()
