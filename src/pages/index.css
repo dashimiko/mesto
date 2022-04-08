@@ -26,6 +26,7 @@
 @import url(../blocks/card/__like/card__like.css);
 @import url(../blocks/card/__like/_active/card__like_active.css);
 @import url(../blocks/card/__delete-button/card__delete-button.css);
+@import url(../blocks/card/__like-container/card__like-container.css);
 @import url(../blocks/card/__like-count/card__like-count.css);
 
 @import url(../blocks/footer/footer.css);
@@ -37,6 +38,7 @@
 @import url(../blocks/popup/__container/popup__container.css);
 @import url(../blocks/popup/__submit-button/popup__submit-button.css);
 @import url(../blocks/popup/__title/popup__title.css);
+@import url(../blocks/popup/__title/_delete/popup__title_delete.css);
 @import url(../blocks/popup/__form/popup__form.css);
 @import url(../blocks/popup/__profile-info/popup__profile-info.css);
 @import url(../blocks/popup/__input/popup__input.css);
@@ -49,3 +51,4 @@
 @import url(../blocks/popup/__error/_visible/popup__error_visible.css);
 @import url(../blocks/popup/__input/_error/popup__input_error.css);
 @import url(../blocks/popup/__submit-button/_inactive/popup__submit-button_inactive.css);
+@import url(../blocks/popup/__submit-button/_delete/popup__submit-button_delete.css);

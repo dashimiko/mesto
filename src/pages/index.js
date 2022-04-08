@@ -14,11 +14,11 @@ import { api } from '../components/Api.js'
 
 import { PopupWithConfirmation } from '../components/PopupWithConfirmation.js'
 
-import {profileForm,editAvatarForm, newPlaceForm,nameInput,jobInput,newPlacePopupButton,profileOpenPopupButton,avatarPopupButton,initialCards,enableValidation} from '../utils/constants.js'
+import {profileForm,editAvatarForm, newPlaceForm,nameInput,jobInput,newPlacePopupButton,profileOpenPopupButton,avatarPopupButton,enableValidation} from '../utils/constants.js'
 
 import './index.css'
 
-let userId
+let userId;
 
 api.getProfile()
 .then(res => {
@@ -137,8 +137,8 @@ const addCardPopup = new PopupWithForm('.popup_new-place', (data) => {
 addCardPopup.setEventListeners()
 
 const editAvatarPopup = new PopupWithForm('.popup_change-avatar', (data) => {
-  editAvatarPopup.renderLoading(true)
   const {avatar} = data
+  editAvatarPopup.renderLoading(true)
   api.editAvatar(avatar)
   .then(res => {
     dataUserInfo.setAvatarInfo(avatar);
