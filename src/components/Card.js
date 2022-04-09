@@ -1,21 +1,17 @@
 export class Card {
   constructor (data,cardSelector,handleCardClick,handleDeleteClick,handleLikeClick) {
-    this._handleCardClick = handleCardClick;
     this._name = data.place;
     this._link = data.link;
     this._likes = data.likes;
     this._id = data.id;
     this._userId = data.userId
     this._ownerId = data.ownerId
-
-
+    this._handleCardClick = handleCardClick;
     this._handleDeleteClick = handleDeleteClick;
     this._handleLikeClick = handleLikeClick;
 
     this._alt = 'На изображении ' + data.name;
-    this._cardTemplate = document
-            .querySelector(cardSelector)
-            .content
+    this._cardTemplate = document.querySelector(cardSelector).content
   }
 
   //метод лайка

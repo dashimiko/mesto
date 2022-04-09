@@ -1,6 +1,5 @@
 //переменные
-
-//формы
+export const elements = []
 export const profileForm = document.querySelector('.popup__form_edit-profile');
 export const newPlaceForm = document.querySelector('.popup__form_new-place');
 export const editAvatarForm = document.querySelector('.popup__form_avatar');

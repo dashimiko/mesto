@@ -1,6 +1,5 @@
 class Api {
   constructor({baseUrl,headers}) {
-    // тело конструктора
     this._headers = headers;
     this._baseUrl = baseUrl
   }
@@ -77,7 +76,6 @@ class Api {
     }).then(res => res.ok ? res.json() : Promise.reject(res.status))
     .catch(console.log)
   }
-  // другие методы работы с API
 }
 
 export const api = new Api({

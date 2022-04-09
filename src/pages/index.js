@@ -10,38 +10,28 @@ import {PopupWithForm} from '../components/PopupWithForm.js'
 
 import {UserInfo} from '../components/UserInfo.js'
 
-import { api } from '../components/Api.js'
+import {api} from '../components/Api.js'
 
-import { PopupWithConfirmation } from '../components/PopupWithConfirmation.js'
+import {PopupWithConfirmation} from '../components/PopupWithConfirmation.js'
 
-import {profileForm,editAvatarForm, newPlaceForm,nameInput,jobInput,newPlacePopupButton,profileOpenPopupButton,avatarPopupButton,enableValidation} from '../utils/constants.js'
+import {elements,profileForm,editAvatarForm, newPlaceForm,nameInput,jobInput,newPlacePopupButton,profileOpenPopupButton,avatarPopupButton,enableValidation} from '../utils/constants.js'
 
 import './index.css'
 
 let userId;
 
+//получаем данные профиля
 api.getProfile()
 .then(res => {
-  console.log(res)
   dataUserInfo.setUserInfo(res.name,res.about)
   dataUserInfo.setAvatarInfo(res.avatar);
   userId = res._id
 })
 
-
+//получаем карточки
 api.getInitialCards()
 .then(elements => {
-  elements.forEach(data => {
-    const card = createCard({
-      place: data.name,
-      link: data.link,
-      likes: data.likes,
-      id: data._id,
-      userId: userId,
-      ownerId: data.owner._id
-    })
-    cardsList.addItem(card)
-  })
+  elements.forEach(sendData)
 })
 
 //данные для редактирования профиля
@@ -51,13 +41,11 @@ const dataUserInfo = new UserInfo ({
   avatarSelector: '.profile__avatar'
 })
 
-//валидируем формы
 const editProfileValidator = new FormValidator(enableValidation, profileForm)
 const editAvatarValidator = new FormValidator(enableValidation, editAvatarForm)
 const addPlaceValidator = new FormValidator(enableValidation, newPlaceForm)
-//подключаем функционал увеличенной картинки
 const popupImage = new PopupWithImage('.popup_open-picture')
-popupImage.setEventListeners()
+const deletePopup = new PopupWithConfirmation('.popup_delete')
 
 //отрисовываем элементы
 const cardsList = new Section({
@@ -65,13 +53,11 @@ const cardsList = new Section({
   renderer: createCard
 },'.elements')
 
-const elements = []
-
 function createCard(item) {
-
-  const card = new Card(item, '#place-template', handleCardClick, (id) => {
+  const card = new Card(item, '#place-template', handleCardClick,
+  (id) => {
     deletePopup.open()
-    deletePopup.changeSubmitHandler(()=>{
+    deletePopup.changeSubmitHandler(() => {
       api.deleteCard(id)
       .then(res => {
         deletePopup.close()
@@ -84,20 +70,15 @@ function createCard(item) {
       api.deleteLike(id)
     .then(res => {
       card.setLikes(res.likes)
-      //console.log(res)
-    })
-    } else {
+    })} else {
       api.addLike(id)
     .then(res => {
       card.setLikes(res.likes)
-      //console.log(res)
     })
     }
   })
   return card.getCardElement()
 }
-
-//function handleDeleteClick() {}
 
 //сабмитим форму редктирования профиля
 const editProfilePopup = new PopupWithForm('.popup_edit-profile', (data) => {
@@ -108,80 +89,69 @@ const editProfilePopup = new PopupWithForm('.popup_edit-profile', (data) => {
     dataUserInfo.setUserInfo(name, about);
     editProfilePopup.close()
   })
+  .finally(() => editProfilePopup.renderLoading(false))
 })
 
-editProfilePopup.setEventListeners()
-
-//сабмитим форму добавления карточки
 const addCardPopup = new PopupWithForm('.popup_new-place', (data) => {
-  //const card = createCard({
-   // place: data.place,
-   // link: data.link
-  //})
   addCardPopup.renderLoading(true)
   api.addImage(data.place,data.link,data.likes)
-  .then(res => {
-    const card = createCard({
-    place: res.name,
-    link: res.link,
-    likes: res.likes,
-    id: res._id,
-    userId: userId,
-    ownerId: res.owner._id
-    })
-    cardsList.addItem(card)
-    addCardPopup.close();
-  })
-});
+  .then(sendData,
+    addCardPopup.close())
+  .finally(() => addCardPopup.renderLoading(false))
+  });
 
-addCardPopup.setEventListeners()
+const sendData = res => {
+  const card = createCard({
+  place: res.name,
+  link: res.link,
+  likes: res.likes,
+  id: res._id,
+  userId: userId,
+  ownerId: res.owner._id
+  })
+  cardsList.addItem(card);
+}
 
 const editAvatarPopup = new PopupWithForm('.popup_change-avatar', (data) => {
   const {avatar} = data
-  editAvatarPopup.renderLoading(true)
+  editAvatarPopup.renderLoading(true);
   api.editAvatar(avatar)
   .then(res => {
     dataUserInfo.setAvatarInfo(avatar);
-    editAvatarPopup.close()
+    editAvatarPopup.close();
   })
+  .finally(() => editAvatarPopup.renderLoading(false))
 })
-
-editAvatarPopup.setEventListeners()
-
 
 //функция, которая передает данные для того чтобы открывать попап с увеличенной картинкой (третий аргемент в конструкторе карточки)
 function handleCardClick(data) {
-  popupImage.open(data)
+  popupImage.open(data);
 }
-
-const deletePopup = new PopupWithConfirmation('.popup_delete')
-
-deletePopup.setEventListeners()
 
 //слушатели
 //открываем форму добавления карточки
 newPlacePopupButton.addEventListener('click', () => {
-  addPlaceValidator.resetValidation()
+  addPlaceValidator.resetValidation();
 
-  addCardPopup.open()
+  addCardPopup.open();
 });
-
+//открываем форму редактирования аватара
 avatarPopupButton.addEventListener('click', () => {
   editAvatarValidator.resetValidation();
 
-  editAvatarPopup.open()
+  editAvatarPopup.open();
 })
 
 //открываем форму редактирования профиля
 profileOpenPopupButton.addEventListener('click', () => {
-  editProfileValidator.resetValidation()
+  editProfileValidator.resetValidation();
 
-  const userData = dataUserInfo.getUserInfo()
+  const userData = dataUserInfo.getUserInfo();
 
   nameInput.value = userData.name;
   jobInput.value = userData.about;
 
-  editProfilePopup.open()
+  editProfilePopup.open();
 });
 
 //валидируем
@@ -189,5 +159,9 @@ editProfileValidator.enableValidation();
 addPlaceValidator.enableValidation();
 editAvatarValidator.enableValidation();
 
-//рендерим карточки
-//cardsList.renderItems()
+//слушатели для закрытия попапов
+popupImage.setEventListeners();
+editProfilePopup.setEventListeners();
+addCardPopup.setEventListeners();
+editAvatarPopup.setEventListeners();
+deletePopup.setEventListeners();
