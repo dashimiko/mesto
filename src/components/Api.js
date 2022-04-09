@@ -4,6 +4,10 @@ class Api {
     this._baseUrl = baseUrl
   }
 
+  getInfo() {
+    return Promise.all([this.getInitialCards(), this.getProfile()])
+  }
+
   getProfile(){
     return fetch(`${this._baseUrl}/users/me`,{
       headers: this._headers

@@ -25,6 +25,7 @@ export class Card {
 
   deleteCard  = () => {
     this._cardElement.closest('.card').remove();
+    this._cardElement = null
   }
 
   //метод, объединяющий слушатели событий

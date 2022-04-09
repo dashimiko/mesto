@@ -14,25 +14,33 @@ import {api} from '../components/Api.js'
 
 import {PopupWithConfirmation} from '../components/PopupWithConfirmation.js'
 
-import {elements,profileForm,editAvatarForm, newPlaceForm,nameInput,jobInput,newPlacePopupButton,profileOpenPopupButton,avatarPopupButton,enableValidation} from '../utils/constants.js'
+import {elements,profileForm,editAvatarForm,newPlaceForm,nameInput,jobInput,newPlacePopupButton,profileOpenPopupButton,avatarPopupButton,enableValidation} from '../utils/constants.js'
 
 import './index.css'
 
 let userId;
 
-//получаем данные профиля
-api.getProfile()
-.then(res => {
-  dataUserInfo.setUserInfo(res.name,res.about)
-  dataUserInfo.setAvatarInfo(res.avatar);
-  userId = res._id
-})
+api.getInfo()
+  .then(([elements, res]) => {
+    userId = res._id
+    dataUserInfo.setUserInfo(res.name, res.about,)
+    dataUserInfo.setAvatarInfo(res.avatar)
 
-//получаем карточки
-api.getInitialCards()
-.then(elements => {
-  elements.forEach(sendData)
-})
+    elements.forEach((data) => {
+      const card = createCard({
+        place: data.name,
+        link: data.link,
+        likes: data.likes,
+        id: data._id,
+        userId: userId,
+        ownerId: data.owner._id
+      })
+      cardsList.addItemAppend(card)
+    })
+  })
+  .catch((err) => {
+    console.log(err);
+  })
 
 //данные для редактирования профиля
 const dataUserInfo = new UserInfo ({
@@ -89,28 +97,31 @@ const editProfilePopup = new PopupWithForm('.popup_edit-profile', (data) => {
     dataUserInfo.setUserInfo(name, about);
     editProfilePopup.close()
   })
+  .catch((err) => {
+    console.log(err);
+  })
   .finally(() => editProfilePopup.renderLoading(false))
 })
 
 const addCardPopup = new PopupWithForm('.popup_new-place', (data) => {
   addCardPopup.renderLoading(true)
   api.addImage(data.place,data.link,data.likes)
-  .then(sendData)
-  .then( () => {addCardPopup.close()} )
-  .finally(() => addCardPopup.renderLoading(false))
-  });
-
-const sendData = res => {
-  const card = createCard({
-  place: res.name,
-  link: res.link,
-  likes: res.likes,
-  id: res._id,
-  userId: userId,
-  ownerId: res.owner._id
+  .then(res => {
+    const card = createCard({
+      place: res.name,
+      link: res.link,
+      likes: res.likes,
+      id: res._id,
+      userId: userId,
+      ownerId: res.owner._id
+    })
+    cardsList.addItemPrepend(card)
+    addCardPopup.close();
   })
-  cardsList.addItem(card);
-}
+  .catch((err) => {
+    console.log(err);
+  })
+});
 
 const editAvatarPopup = new PopupWithForm('.popup_change-avatar', (data) => {
   const {avatar} = data
@@ -119,6 +130,9 @@ const editAvatarPopup = new PopupWithForm('.popup_change-avatar', (data) => {
   .then(res => {
     dataUserInfo.setAvatarInfo(avatar);
     editAvatarPopup.close();
+  })
+  .catch((err) => {
+    console.log(err);
   })
   .finally(() => editAvatarPopup.renderLoading(false))
 })
