@@ -95,8 +95,8 @@ const editProfilePopup = new PopupWithForm('.popup_edit-profile', (data) => {
 const addCardPopup = new PopupWithForm('.popup_new-place', (data) => {
   addCardPopup.renderLoading(true)
   api.addImage(data.place,data.link,data.likes)
-  .then(sendData,
-    addCardPopup.close())
+  .then(sendData)
+  .then( () => {addCardPopup.close()} )
   .finally(() => addCardPopup.renderLoading(false))
   });
 

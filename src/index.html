@@ -17,7 +17,7 @@
     <main>
       <section class="profile">
         <button class="profile__avatar-container">
-          <img class="profile__avatar" src="" alt="Фотография пользователя.">
+          <img class="profile__avatar" src="https://s3.nat-geo.ru/images/2020/3/23/192046828b7048648e3106b3d202c33a.max-2000x1000.jpg" alt="Фотография пользователя.">
         </button>
         <div class="profile__info">
           <div class="profile__container">
@@ -78,9 +78,9 @@
         <div class="popup__container">
           <button class="popup__close popup__close_new-place" type="button"></button>
           <h2 class="popup__title popup__title_delete">Вы уверены?</h2>
-          <form class="popup__form popup__form_new-place" name="form" novalidate></form>
-          <button type="submit" class="popup__submit-button popup__submit-button_delete">Да</button>
-        </form>
+          <form class="popup__form popup__form_new-place" name="form" novalidate>
+            <button type="submit" class="popup__submit-button popup__submit-button_delete">Да</button>
+          </form>
         </div>
       </section>
 
@@ -90,7 +90,7 @@
           <h2 class="popup__title">Обновить аватар</h2>
           <form class="popup__form popup__form_avatar" name="form" novalidate>
             <label class="popup__profile-info">
-              <input type="url" name = "avatar" id = "link" class = "popup__input popup__input_place_link" placeholder="Ссылка на картинку" value ="" required>
+              <input type="url" name = "avatar" id = "avatar" class = "popup__input popup__input_place_link" placeholder="Ссылка на картинку" value ="" required>
               <span class="link-error popup__error" id=""></span>
             </label>
             <button type="submit" class="popup__submit-button popup__submit-button_place">Сохранить</button>
